@@ -44,8 +44,11 @@ public class AStarAlgorithm extends Algorithm {
     int winningOpportunities = 0;
     for (Position p : moves) {
       long nextState = table.getNextState(state, p);
-      if (table.isGameFinished(nextState) && table.getWinner(nextState) != 0) {
-        return INFINITY;
+      if (table.isGameFinished(nextState)) {
+        if (table.getWinner(nextState) != 0) {
+          return INFINITY;
+        }
+        return 0;
       }
       boolean doIHaveWinningMoves = false;
       for (Position np : table.getAvailableMoves(nextState)) {
