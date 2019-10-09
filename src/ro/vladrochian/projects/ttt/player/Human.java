@@ -1,22 +1,25 @@
 package ro.vladrochian.projects.ttt.player;
 
 import ro.vladrochian.projects.ttt.table.Position;
-import ro.vladrochian.projects.ttt.table.TableState;
+import ro.vladrochian.projects.ttt.table.Table;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class Human implements Player {
+public class Human extends Player {
+  private Table table;
   private Scanner input;
-  {
+
+  public Human(String name, Table table) {
+    super(name);
+    this.table = table;
     input = new Scanner(System.in);
   }
 
   @Override
-  public Position getMove(int tableState) {
-    int player = TableState.getCurrentPlayer(tableState);
-    System.out.println("Player " + player + "'s turn");
-    List<Position> availableMoves = TableState.getAvailableMoves(tableState);
+  public Position getMove(long tableState) {
+    System.out.println(name + "'s turn");
+    List<Position> availableMoves = table.getAvailableMoves(tableState);
     System.out.println("Enter move:");
     Position move = readMove();
     while (!availableMoves.contains(move)) {

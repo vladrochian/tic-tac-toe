@@ -1,7 +1,14 @@
 package ro.vladrochian.projects.ttt.algorithm;
 
 import ro.vladrochian.projects.ttt.table.Position;
+import ro.vladrochian.projects.ttt.table.Table;
 
-public interface Algorithm {
-  Position getMove(int state);
+public abstract class Algorithm {
+  protected Table table;
+
+  Algorithm(Table table) {
+    this.table = table;
+  }
+
+  public abstract Position getMove(long state);
 }

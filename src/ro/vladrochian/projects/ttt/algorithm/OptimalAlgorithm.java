@@ -1,34 +1,32 @@
 package ro.vladrochian.projects.ttt.algorithm;
 
 import ro.vladrochian.projects.ttt.table.Position;
-import ro.vladrochian.projects.ttt.table.TableState;
+import ro.vladrochian.projects.ttt.table.Table;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OptimalAlgorithm implements Algorithm {
-  {
-    initializeGraph();
-  }
+public class OptimalAlgorithm extends Algorithm {
   enum StateType { WIN, LOSE, DRAW }
-  private Map<Integer, StateType> stateType;
-  private Map<Integer, Position> nextMove;
+  private Map<Long, StateType> stateType;
+  private Map<Long, Position> nextMove;
 
-  private void initializeGraph() {
+  public OptimalAlgorithm(Table table) {
+    super(table);
     stateType = new HashMap<>();
     nextMove = new HashMap<>();
-    buildGraph(TableState.initialState());
+    buildGraph(table.initialState());
   }
 
-  private void setState(int state, StateType type, Position move) {
+  private void setState(long state, StateType type, Position move) {
     stateType.put(state, type);
     nextMove.put(state, move);
   }
 
-  private void buildGraph(int state) {
-    if (TableState.isGameFinished(state)) {
-      int winner = TableState.getWinner(state);
+  private void buildGraph(long state) {
+    if (table.isGameFinished(state)) {
+      int winner = table.getWinner(state);
       if (winner == 0) {
         stateType.put(state, StateType.DRAW);
       } else {
@@ -36,23 +34,21 @@ public class OptimalAlgorithm implements Algorithm {
       }
       return;
     }
-    List<Position> availableMoves = TableState.getAvailableMoves(state);
-    Position winningMove = null;
+    List<Position> availableMoves = table.getAvailableMoves(state);
     Position drawMove = null;
     for (Position p : availableMoves) {
-      int nextState = TableState.getNextState(state, p);
+      long nextState = table.getNextState(state, p);
       if (!stateType.containsKey(nextState)) {
         buildGraph(nextState);
       }
-      if (stateType.get(nextState).equals(StateType.LOSE) && winningMove == null) {
-        winningMove = p;
+      if (stateType.get(nextState).equals(StateType.LOSE)) {
+        setState(state, StateType.WIN, p);
+        return;
       } else if (stateType.get(nextState).equals(StateType.DRAW) && drawMove == null) {
         drawMove = p;
       }
     }
-    if (winningMove != null) {
-      setState(state, StateType.WIN, winningMove);
-    } else if (drawMove != null) {
+    if (drawMove != null) {
       setState(state, StateType.DRAW, drawMove);
     } else {
       setState(state, StateType.LOSE, availableMoves.get(0));
@@ -60,7 +56,7 @@ public class OptimalAlgorithm implements Algorithm {
   }
 
   @Override
-  public Position getMove(int state) {
+  public Position getMove(long state) {
     return nextMove.get(state);
   }
 }
