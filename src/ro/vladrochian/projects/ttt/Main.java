@@ -1,7 +1,7 @@
 package ro.vladrochian.projects.ttt;
 
-import ro.vladrochian.projects.ttt.algorithm.AStarAlgorithm;
 import ro.vladrochian.projects.ttt.algorithm.Algorithm;
+import ro.vladrochian.projects.ttt.algorithm.OptimalAlgorithm;
 import ro.vladrochian.projects.ttt.game.Game;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ public class Main {
     if (mode < 0 || mode > 3) {
       mode = 0;
     }
-    Algorithm botAlgorithm = new AStarAlgorithm();
+    Algorithm botAlgorithm = new OptimalAlgorithm();
     boolean[] players = {(mode & 1) == 1, (mode >> 1) == 1};
     Game game = new Game(players, botAlgorithm);
     game.play();
