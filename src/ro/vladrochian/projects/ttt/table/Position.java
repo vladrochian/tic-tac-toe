@@ -12,11 +12,11 @@ public class Position {
     return new Position(x, y);
   }
 
-  int getX() {
+  public int getX() {
     return x;
   }
 
-  int getY() {
+  public int getY() {
     return y;
   }
 

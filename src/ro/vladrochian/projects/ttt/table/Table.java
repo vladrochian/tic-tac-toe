@@ -5,32 +5,44 @@ import java.util.List;
 
 public class Table {
   private static final char[] SYMBOL = {'.', 'X', 'O'};
-  private final int tableHeight;
-  private final int tableWidth;
-  private final int tableLineSize;
+  private final int height;
+  private final int width;
+  private final int lineSize;
   private final long[] pw3;
   private final Position[] allPositions;
 
   public Table(int height, int width, int lineSize) {
-    tableHeight = height;
-    tableWidth = width;
-    tableLineSize = lineSize;
-    int tableSize = height * width;
-    pw3 = new long[tableSize];
+    this.height = height;
+    this.width = width;
+    this.lineSize = lineSize;
+    int size = height * width;
+    pw3 = new long[size];
     pw3[0] = 1;
-    for (int i = 1; i < tableSize; ++i) {
+    for (int i = 1; i < size; ++i) {
       pw3[i] = 3 * pw3[i - 1];
     }
-    allPositions = new Position[tableSize];
-    for (int i = 0; i < tableSize; ++i) {
+    allPositions = new Position[size];
+    for (int i = 0; i < size; ++i) {
       allPositions[i] = decodePosition(i);
     }
   }
 
+  public int getHeight() {
+    return height;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public Position[] getAllPositions() {
+    return allPositions;
+  }
+
   public String displayState(long state) {
     StringBuilder stringBuilder = new StringBuilder();
-    for (int i = 1; i <= tableHeight; ++i) {
-      for (int j = 1; j <= tableWidth; ++j) {
+    for (int i = 1; i <= height; ++i) {
+      for (int j = 1; j <= width; ++j) {
         stringBuilder.append(SYMBOL[getTableValue(state, Position.from(i, j))]);
       }
       stringBuilder.append('\n');
@@ -43,18 +55,18 @@ public class Table {
   }
 
   private int encodePosition(Position p) {
-    return (p.getX() - 1) * tableWidth + p.getY() - 1;
+    return (p.getX() - 1) * width + p.getY() - 1;
   }
 
   private Position decodePosition(int p) {
-    return Position.from(p / tableWidth + 1, p % tableWidth + 1);
+    return Position.from(p / width + 1, p % width + 1);
   }
 
   public int getTableValue(long state, Position p) {
     return (int)((state / pw3[encodePosition(p)]) % 3);
   }
 
-  public int[] getValueCount(long state) {
+  private int[] getValueCount(long state) {
     int[] cnt = new int[3];
     for (Position p : allPositions) {
       ++cnt[getTableValue(state, p)];
@@ -62,25 +74,23 @@ public class Table {
     return cnt;
   }
 
-  private void checkValid(long state) {
+  public int getCurrentPlayer(long state) {
     int[] count = getValueCount(state);
     assert count[1] == count[2] || count[1] == count[2] + 1 : "State is not valid";
-  }
-
-  public int getCurrentPlayer(long state) {
-    checkValid(state);
-    int[] count = getValueCount(state);
     return count[1] == count[2] ? 1 : 2;
   }
 
   public long getNextState(long state, Position move) {
-    checkValid(state);
     assert getTableValue(state, move) == 0 : "Slot not empty";
     return state + getCurrentPlayer(state) * pw3[encodePosition(move)];
   }
 
+  public long simulateWrongMove(long state, Position move) {
+    assert getTableValue(state, move) == 0 : "Slot not empty";
+    return state + (3 - getCurrentPlayer(state)) * pw3[encodePosition(move)];
+  }
+
   public List<Position> getAvailableMoves(long state) {
-    checkValid(state);
     List<Position> ans = new ArrayList<>();
     for (Position p : allPositions) {
       if (getTableValue(state, p) == 0) {
@@ -90,51 +100,48 @@ public class Table {
     return ans;
   }
 
-  private int getLine(long state, Position start, int dx, int dy, int size) {
-    int value = getTableValue(state, start);
+  private boolean isFull(long state, Position start, int dx, int dy, int player) {
     Position p = start;
-    for (int i = 1; i < size; ++i) {
-      p = Position.from(p.getX() + dx, p.getY() + dy);
-      if (getTableValue(state, p) != value) {
-        return 0;
+    for (int i = 0; i < lineSize; ++i) {
+      if (getTableValue(state, p) != player) {
+        return false;
       }
+      p = Position.from(p.getX() + dx, p.getY() + dy);
     }
-    return value;
+    return true;
   }
 
-  public int countLines(long state, int size, int player) {
-    int cnt = 0;
-    for (int i = 1; i <= tableHeight; ++i) {
-      for (int j = 1; j <= tableWidth - size + 1; ++j) {
-        if (getLine(state, Position.from(i, j), 0, 1, size) == player) ++cnt;
+  private boolean hasFullLine(long state, int player) {
+    for (int i = 1; i <= height; ++i) {
+      for (int j = 1; j <= width - lineSize + 1; ++j) {
+        if (isFull(state, Position.from(i, j), 0, 1, player)) return true;
       }
     }
-    for (int i = 1; i <= tableHeight - size + 1; ++i) {
-      for (int j = 1; j <= tableWidth; ++j) {
-        if (getLine(state, Position.from(i, j), 1, 0, size) == player) ++cnt;
+    for (int i = 1; i <= height - lineSize + 1; ++i) {
+      for (int j = 1; j <= width; ++j) {
+        if (isFull(state, Position.from(i, j), 1, 0, player)) return true;
       }
     }
-    for (int i = 1; i <= tableHeight - size + 1; ++i) {
-      for (int j = 1; j <= tableWidth - size + 1; ++j) {
-        if (getLine(state, Position.from(i, j), 1, 1, size) == player) ++cnt;
+    for (int i = 1; i <= height - lineSize + 1; ++i) {
+      for (int j = 1; j <= width - lineSize + 1; ++j) {
+        if (isFull(state, Position.from(i, j), 1, 1, player)) return true;
       }
     }
-    for (int i = 1; i <= tableHeight - size + 1; ++i) {
-      for (int j = size; j <= tableWidth; ++j) {
-        if (getLine(state, Position.from(i, j), 1, -1, size) == player) ++cnt;
+    for (int i = 1; i <= height - lineSize + 1; ++i) {
+      for (int j = lineSize; j <= width; ++j) {
+        if (isFull(state, Position.from(i, j), 1, -1, player)) return true;
       }
     }
-    return cnt;
+    return false;
   }
 
   private int findFullLine(long state) {
-    if (countLines(state, tableLineSize, 1) == 1) return 1;
-    if (countLines(state, tableLineSize, 2) == 1) return 2;
+    if (hasFullLine(state, 1)) return 1;
+    if (hasFullLine(state, 2)) return 2;
     return 0;
   }
 
   public boolean isGameFinished(long state) {
-    checkValid(state);
     return findFullLine(state) != 0 || getValueCount(state)[0] == 0;
   }
 
