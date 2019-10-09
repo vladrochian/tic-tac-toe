@@ -84,7 +84,7 @@ public class AStarAlgorithm extends Algorithm {
         ++winningOpportunities;
       }
     }
-    if (winningOpportunities == 2) return -INFINITY;
+    if (winningOpportunities > 1) return -INFINITY;
     if (winningOpportunities == 1) return -1;
     return 0;
   }
