@@ -4,7 +4,7 @@ import ro.vladrochian.projects.ttt.algorithm.AStarAlgorithm;
 import ro.vladrochian.projects.ttt.algorithm.Algorithm;
 import ro.vladrochian.projects.ttt.algorithm.OptimalAlgorithm;
 import ro.vladrochian.projects.ttt.algorithm.RandomAlgorithm;
-import ro.vladrochian.projects.ttt.game.Game;
+import ro.vladrochian.projects.ttt.console.ConsoleGame;
 import ro.vladrochian.projects.ttt.table.Table;
 
 import java.util.Scanner;
@@ -24,7 +24,7 @@ public class ConsoleApplication {
     String algorithmName = args.length > 4 ? args[4] : "optimal";
 
     boolean[] players = {(mode & 1) == 1, (mode >> 1) == 1};
-    Game game = new Game(players, table, getAlgorithm(algorithmName, table));
+    ConsoleGame game = new ConsoleGame(players, table, getAlgorithm(algorithmName, table));
     game.play();
     int winner = game.winner();
     if (winner == 0) {

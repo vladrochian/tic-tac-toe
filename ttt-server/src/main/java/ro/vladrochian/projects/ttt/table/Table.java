@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
-  private static final char[] SYMBOL = {'.', 'X', 'O'};
   private final int height;
   private final int width;
   private final int lineSize;
@@ -37,17 +36,6 @@ public class Table {
 
   public Position[] getAllPositions() {
     return allPositions;
-  }
-
-  public String displayState(long state) {
-    StringBuilder stringBuilder = new StringBuilder();
-    for (int i = 1; i <= height; ++i) {
-      for (int j = 1; j <= width; ++j) {
-        stringBuilder.append(SYMBOL[getTableValue(state, Position.from(i, j))]);
-      }
-      stringBuilder.append('\n');
-    }
-    return stringBuilder.toString();
   }
 
   public long initialState() {

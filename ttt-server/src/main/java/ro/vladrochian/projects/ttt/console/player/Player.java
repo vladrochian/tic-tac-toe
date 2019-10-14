@@ -1,4 +1,4 @@
-package ro.vladrochian.projects.ttt.player;
+package ro.vladrochian.projects.ttt.console.player;
 
 import ro.vladrochian.projects.ttt.table.Position;
 

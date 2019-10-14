@@ -1,18 +1,19 @@
-package ro.vladrochian.projects.ttt.game;
+package ro.vladrochian.projects.ttt.console;
 
 import ro.vladrochian.projects.ttt.algorithm.Algorithm;
-import ro.vladrochian.projects.ttt.player.Bot;
-import ro.vladrochian.projects.ttt.player.Human;
-import ro.vladrochian.projects.ttt.player.Player;
+import ro.vladrochian.projects.ttt.console.player.Bot;
+import ro.vladrochian.projects.ttt.console.player.Human;
+import ro.vladrochian.projects.ttt.console.player.Player;
 import ro.vladrochian.projects.ttt.table.Position;
 import ro.vladrochian.projects.ttt.table.Table;
 
-public class Game {
+public class ConsoleGame {
+  private static final char[] TABLE_SYMBOL = {'.', 'X', 'O'};
   private Player[] players;
   private Table table;
   private long state;
 
-  public Game(boolean[] players, Table table, Algorithm botAlgorithm) {
+  public ConsoleGame(boolean[] players, Table table, Algorithm botAlgorithm) {
     assert (players.length == 2);
     this.table = table;
     state = table.initialState();
@@ -22,8 +23,19 @@ public class Game {
     }
   }
 
+  private String tableToString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (int i = 1; i <= table.getHeight(); ++i) {
+      for (int j = 1; j <= table.getWidth(); ++j) {
+        stringBuilder.append(TABLE_SYMBOL[table.getTableValue(state, Position.from(i, j))]);
+      }
+      stringBuilder.append('\n');
+    }
+    return stringBuilder.toString();
+  }
+
   private void displayBoard() {
-    System.out.println(table.displayState(state));
+    System.out.println(tableToString());
   }
 
   public void play() {
