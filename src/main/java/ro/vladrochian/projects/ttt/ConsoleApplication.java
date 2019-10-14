@@ -9,7 +9,7 @@ import ro.vladrochian.projects.ttt.table.Table;
 
 import java.util.Scanner;
 
-public class Main {
+public class ConsoleApplication {
   public static void main(String[] args) {
     int mode = args.length > 0 ? Integer.parseInt(args[0]) : readMode();
     if (mode < 0 || mode > 3) {
