@@ -24,4 +24,9 @@ public class ExceptionHandlers {
   public ResponseEntity notFoundException(RuntimeException e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler({IllegalMoveException.class})
+  public ResponseEntity badRequestException(RuntimeException e) {
+    return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+  }
 }

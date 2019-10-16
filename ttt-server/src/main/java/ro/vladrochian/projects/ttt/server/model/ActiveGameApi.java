@@ -1,17 +1,9 @@
 package ro.vladrochian.projects.ttt.server.model;
 
 public class ActiveGameApi {
-  private int[] score;
   private String[] playerNames;
   private TableStateApi tableState;
-  
-  public int[] getScore() {
-    return score;
-  }
-
-  public void setScore(int[] score) {
-    this.score = score;
-  }
+  private String gameStatus;
 
   public String[] getPlayerNames() {
     return playerNames;
@@ -27,5 +19,13 @@ public class ActiveGameApi {
 
   public void setTableState(TableStateApi tableState) {
     this.tableState = tableState;
+  }
+
+  public String getGameStatus() {
+    return gameStatus;
+  }
+
+  public void setGameStatus(String gameStatus) {
+    this.gameStatus = gameStatus;
   }
 }

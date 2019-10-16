@@ -39,7 +39,7 @@ public class CreateGameApi {
     this.lineSize = lineSize;
   }
 
-  public boolean isGamePublic() {
+  public boolean getGamePublic() {
     return gamePublic;
   }
 

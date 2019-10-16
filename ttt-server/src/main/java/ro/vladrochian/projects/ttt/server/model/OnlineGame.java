@@ -14,7 +14,6 @@ public class OnlineGame {
   private String[] players;
   private boolean gamePublic;
   private boolean started;
-  private int[] score;
   private long state;
 
   public OnlineGame(CreateGameApi gameData) {
@@ -24,9 +23,8 @@ public class OnlineGame {
     botAlgorithm = new AStarAlgorithm(table);
     players = new String[2];
     players[0] = hostId;
-    gamePublic = gameData.isGamePublic();
+    gamePublic = gameData.getGamePublic();
     started = false;
-    score = new int[2];
     state = table.initialState();
   }
 
@@ -58,16 +56,20 @@ public class OnlineGame {
     return started;
   }
 
-  public int[] getScore() {
-    return score;
-  }
-
   public Table getTable() {
     return table;
   }
 
   public long getState() {
     return state;
+  }
+
+  public void setState(long state) {
+    this.state = state;
+  }
+
+  public Algorithm getBotAlgorithm() {
+    return botAlgorithm;
   }
 
   public boolean isOpen() {
@@ -80,5 +82,9 @@ public class OnlineGame {
 
   public void start() {
     started = true;
+  }
+
+  public void end() {
+    started = false;
   }
 }
