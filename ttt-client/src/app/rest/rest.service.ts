@@ -6,7 +6,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class RestService {
   private serverHost = window.location.hostname;
   private serverUrl = 'http://' + this.serverHost + ':8080';
-  private options = {headers: new Headers({'Content-Type': 'application/json'})};
 
   constructor(private cookieService: CookieService, private http: HttpClient) {
   }
@@ -25,11 +24,23 @@ export class RestService {
   }
 
   getPublicGames() {
-    return this.http.get(this.serverUrl + '/lobby/games').toPromise();
+    return this.http.get(this.serverUrl + '/lobby/games/' + this.userId).toPromise();
   }
 
   createGame(game) {
     return this.http.post(this.serverUrl + '/lobby/games', game, {responseType: 'text'}).toPromise()
       .then((code: string) => this.cookieService.set('gameCode', code));
+  }
+
+  getLobby() {
+    return this.http.get(this.serverUrl + '/lobby/my-game/' + this.userId).toPromise();
+  }
+
+  startGame() {
+    return this.http.put(this.serverUrl + '/lobby/my-game/' + this.userId + '/status', {}).toPromise();
+  }
+
+  leaveGame() {
+    return this.http.delete(this.serverUrl + '/lobby/my-game/' + this.userId).toPromise();
   }
 }

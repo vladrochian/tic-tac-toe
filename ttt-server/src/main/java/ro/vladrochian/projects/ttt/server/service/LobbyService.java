@@ -23,24 +23,46 @@ public class LobbyService {
     this.userRepository = userRepository;
   }
 
+  private void checkUser(String userId) {
+    if (userRepository.findById(userId) == null) {
+      throw new UserNotFoundException();
+    }
+  }
+
   public String createGame(CreateGameApi gameData) {
+    checkUser(gameData.getHostId());
     if (gameRepository.findByUserId(gameData.getHostId()) != null) {
       throw new AlreadyInGameException();
     }
     return gameRepository.add(gameData).getCode();
   }
 
-  public List<GameSummaryApi> getPublicGames() {
+  private String playerName(String id) {
+    if (id == null) return null;
+    checkUser(id);
+    return userRepository.findById(id).getName();
+  }
+
+  private GameSummaryApi summary(OnlineGame game) {
+    GameSummaryApi gameApi = new GameSummaryApi();
+    gameApi.setCode(game.getCode());
+    gameApi.setHostName(playerName(game.getHostId()));
+    gameApi.setTableHeight(game.getTableHeight());
+    gameApi.setTableWidth(game.getTableWidth());
+    gameApi.setLineSize(game.getLineSize());
+    String[] playerNames = new String[2];
+    playerNames[0] = playerName(game.getPlayers()[0]);
+    playerNames[1] = playerName(game.getPlayers()[1]);
+    gameApi.setPlayerNames(playerNames);
+    return gameApi;
+  }
+
+  public List<GameSummaryApi> getPublicGames(String userId) {
+    checkUser(userId);
     List<OnlineGame> games = gameRepository.findAllPublicAndNotStartedAndOpen();
     List<GameSummaryApi> ans = new ArrayList<>();
     for (OnlineGame game : games) {
-      GameSummaryApi gameApi = new GameSummaryApi();
-      gameApi.setCode(game.getCode());
-      gameApi.setHostName(userRepository.findById(game.getHostId()).getName());
-      gameApi.setTableHeight(game.getTableHeight());
-      gameApi.setTableWidth(game.getTableWidth());
-      gameApi.setLineSize(game.getLineSize());
-      ans.add(gameApi);
+      ans.add(summary(game));
     }
     return ans;
   }
@@ -51,7 +73,20 @@ public class LobbyService {
     }
   }
 
+  public GameSummaryApi getGameDetails(String userId) {
+    checkUser(userId);
+    OnlineGame game = gameRepository.findByUserId(userId);
+    if (game == null) {
+      throw new GameNotFoundException();
+    }
+    GameSummaryApi gameApi = summary(game);
+    gameApi.setMyGame(userId.equals(game.getHostId()));
+    gameApi.setStarted(game.isStarted());
+    return gameApi;
+  }
+
   public void joinGame(String gameCode, String userId) {
+    checkUser(userId);
     if (gameRepository.findByUserId(userId) != null) {
       throw new AlreadyInGameException();
     }
@@ -71,6 +106,7 @@ public class LobbyService {
   }
 
   public void kickOpponent(String hostId) {
+    checkUser(hostId);
     OnlineGame game = gameRepository.findByHostId(hostId);
     if (game == null) {
       throw new UserNotHostException();
@@ -85,6 +121,7 @@ public class LobbyService {
   }
 
   public void leaveLobby(String userId) {
+    checkUser(userId);
     OnlineGame game = gameRepository.findByUserId(userId);
     if (game == null) {
       throw new UserNotInGameException();
@@ -103,6 +140,7 @@ public class LobbyService {
   }
 
   public void startGame(String hostId) {
+    checkUser(hostId);
     OnlineGame game = gameRepository.findByHostId(hostId);
     if (game == null) {
       throw new UserNotHostException();

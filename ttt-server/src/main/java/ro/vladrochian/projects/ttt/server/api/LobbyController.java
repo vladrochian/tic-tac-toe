@@ -16,9 +16,9 @@ public class LobbyController {
     this.lobbyService = lobbyService;
   }
 
-  @GetMapping("/lobby/games")
-  public ResponseEntity getGameList() {
-    return new ResponseEntity<>(lobbyService.getPublicGames(), HttpStatus.OK);
+  @GetMapping("/lobby/games/{userId}")
+  public ResponseEntity getGameList(@PathVariable String userId) {
+    return new ResponseEntity<>(lobbyService.getPublicGames(userId), HttpStatus.OK);
   }
 
   @PostMapping("/lobby/games")
@@ -30,6 +30,11 @@ public class LobbyController {
   public ResponseEntity joinGame(@PathVariable String gameCode, @RequestBody String userId) {
     lobbyService.joinGame(gameCode, userId);
     return new ResponseEntity<>(HttpStatus.CREATED);
+  }
+
+  @GetMapping("/lobby/my-game/{userId}")
+  public ResponseEntity getGameDetails(@PathVariable String userId) {
+    return new ResponseEntity<>(lobbyService.getGameDetails(userId), HttpStatus.OK);
   }
 
   @DeleteMapping("/lobby/my-game/{hostId}/opponent")

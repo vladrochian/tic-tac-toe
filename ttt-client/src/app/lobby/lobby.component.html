@@ -1,3 +1,12 @@
 <p>
   lobby works!
 </p>
+<div *ngIf="game">
+  <ul>
+    <li>X - {{game.playerNames[0] || 'Computer'}}</li>
+    <li>O - {{game.playerNames[1] || 'Computer'}}</li>
+  </ul>
+  <button *ngIf="game.myGame" (click)="changeSides()">Change sides</button>
+  <button *ngIf="game.myGame" (click)="startGame()">Start game</button>
+  <button (click)="leaveGame()">Leave game</button>
+</div>

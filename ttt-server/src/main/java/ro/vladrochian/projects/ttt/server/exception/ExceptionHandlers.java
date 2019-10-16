@@ -20,7 +20,7 @@ public class ExceptionHandlers {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.PRECONDITION_FAILED);
   }
 
-  @ExceptionHandler({GameNotFoundException.class})
+  @ExceptionHandler({GameNotFoundException.class, UserNotFoundException.class})
   public ResponseEntity notFoundException(RuntimeException e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
   }
