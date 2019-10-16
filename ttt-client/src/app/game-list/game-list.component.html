@@ -13,5 +13,6 @@
 </form>
 <button (click)="createGame()">Create new game</button>
 <ul>
-  <li *ngFor="let game of games">{{game.hostName}}</li>
+  <li *ngFor="let game of games"
+      (click)="joinGame(game.code)">{{game.hostName + ' ' + game.tableHeight + 'x' + game.tableWidth}}</li>
 </ul>

@@ -44,19 +44,19 @@ export class GameComponent implements OnInit {
     }
   }
 
-  getGame() {
-    this.text = 'Waiting';
+  getGame(triggerWait = true) {
+    if (triggerWait) {
+      this.text = 'Waiting';
+    }
     this.restService.getActiveGame()
       .then((game: any) => {
         this.game = game;
         this.buildGrid();
         if (this.game.gameStatus !== 'NOT_FINISHED') {
           this.text = (this.game.gameStatus === 'LOSE' ? 'Lose' : 'Draw');
-          this.timeout = setTimeout(() => {
-            this.restService.performMove(0, 0)
-              .then(() => this.backToLobby());
-          }, 2000);
-        } else {
+          this.restService.performMove(0, 0)
+            .then(() => this.timeout = setTimeout(() => this.backToLobby(), 3500));
+        } else if (triggerWait) {
           this.waitForOpponent();
         }
       })
@@ -75,9 +75,10 @@ export class GameComponent implements OnInit {
   waitForOpponent() {
     this.restService.hasOpponentMoved()
       .then(ans => {
-        if (ans) {
+        if (ans === 'true') {
           clearTimeout(this.timeout);
           this.myTurn();
+          this.getGame(false);
         } else {
           this.timeout = setTimeout(() => this.waitForOpponent(), 1000);
         }
@@ -101,7 +102,7 @@ export class GameComponent implements OnInit {
         } else {
           this.grid[row - 1][column - 1] = this.movingPlayer();
           this.text = (status === 'DRAW' ? 'Draw' : 'Win');
-          this.timeout = setTimeout(() => this.backToLobby(), 2000);
+          this.timeout = setTimeout(() => this.backToLobby(), 3500);
         }
       })
       .catch(e => console.log(e));

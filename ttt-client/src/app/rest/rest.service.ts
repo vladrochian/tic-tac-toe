@@ -32,6 +32,11 @@ export class RestService {
       .then((code: string) => this.cookieService.set('gameCode', code));
   }
 
+  joinGame(gameCode: string) {
+    return this.http.post(this.serverUrl + '/lobby/games/' + gameCode + '/opponent', this.userId).toPromise()
+      .then(() => this.cookieService.set('gameCode', gameCode));
+  }
+
   getLobby() {
     return this.http.get(this.serverUrl + '/lobby/my-game/' + this.userId).toPromise();
   }

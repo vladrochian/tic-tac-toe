@@ -17,7 +17,13 @@ export class GameListComponent implements OnInit {
     lineSize: 3,
     gamePublic: true
   };
-  games = [];
+  games: {
+    code: string,
+    hostName: string,
+    tableHeight: number,
+    tableWidth: number,
+    lineSize: number
+  }[] = [];
 
   constructor(private cookieService: CookieService, private restService: RestService, private router: Router) {
   }
@@ -44,6 +50,11 @@ export class GameListComponent implements OnInit {
         this.cookieService.delete('userId');
         this.router.navigate(['/register']);
       });
+  }
+
+  joinGame(gameCode: string) {
+    this.restService.joinGame(gameCode)
+      .then(() => this.goToLobby());
   }
 
   ngOnInit() {
