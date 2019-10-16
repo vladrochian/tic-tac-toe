@@ -24,6 +24,9 @@ public class LobbyService {
   }
 
   public String createGame(CreateGameApi gameData) {
+    if (gameRepository.findByUserId(gameData.getHostId()) != null) {
+      throw new AlreadyInGameException();
+    }
     return gameRepository.add(gameData).getCode();
   }
 

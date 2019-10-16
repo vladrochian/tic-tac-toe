@@ -1,3 +1,17 @@
 <p>
   game-list works!
 </p>
+<form>
+  <label>Height</label>
+  <input name="height" [(ngModel)]="newGame.tableHeight">
+  <label>Width</label>
+  <input name="width" [(ngModel)]="newGame.tableWidth">
+  <label>Line size</label>
+  <input name="lineSize" [(ngModel)]="newGame.lineSize">
+  <label>Public</label>
+  <input name="gamePublic" type="checkbox" [(ngModel)]="newGame.gamePublic">
+</form>
+<button (click)="createGame()">Create new game</button>
+<ul>
+  <li *ngFor="let game of games">{{game.hostName}}</li>
+</ul>

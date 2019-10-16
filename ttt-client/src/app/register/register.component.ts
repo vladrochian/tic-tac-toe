@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   constructor(private cookieService: CookieService, private router: Router, private restService: RestService) { }
 
   ngOnInit() {
-    if (this.cookieService.get('userId')) {
+    if (this.cookieService.check('userId')) {
       this.navigate();
     }
   }

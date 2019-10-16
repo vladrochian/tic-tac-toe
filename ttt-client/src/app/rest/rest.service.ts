@@ -21,6 +21,15 @@ export class RestService {
 
   register(name: string) {
     return this.http.post(this.serverUrl + '/registration/players', name, {responseType: 'text'}).toPromise()
-      .then((id: string) => console.log(this.userId = id));
+      .then((id: string) => this.userId = id);
+  }
+
+  getPublicGames() {
+    return this.http.get(this.serverUrl + '/lobby/games').toPromise();
+  }
+
+  createGame(game) {
+    return this.http.post(this.serverUrl + '/lobby/games', game, {responseType: 'text'}).toPromise()
+      .then((code: string) => this.cookieService.set('gameCode', code));
   }
 }
