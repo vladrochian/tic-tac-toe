@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ro.vladrochian.projects.ttt.server.service.RegistrationService;
 
-@RestController("/registration")
+@RestController
 public class RegistrationController {
   private RegistrationService registrationService;
 
@@ -17,7 +17,7 @@ public class RegistrationController {
     this.registrationService = registrationService;
   }
 
-  @PostMapping("/players")
+  @PostMapping("/registration/players")
   public ResponseEntity registerPlayer(@RequestBody String name) {
     return new ResponseEntity<>(registrationService.registerUser(name), HttpStatus.CREATED);
   }
