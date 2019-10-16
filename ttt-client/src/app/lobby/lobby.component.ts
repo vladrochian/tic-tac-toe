@@ -25,7 +25,7 @@ export class LobbyComponent implements OnInit {
       .then((game: any) => {
         this.game = game;
         if (game.started) {
-          this.router.navigate(['/game']);
+          this.goToGame();
         } else {
           this.timeout = setTimeout(() => this.getLobby(), 1000);
         }
@@ -47,9 +47,14 @@ export class LobbyComponent implements OnInit {
     // TODO: Rocky
   }
 
+  goToGame() {
+    clearTimeout(this.timeout);
+    this.router.navigate(['/game']);
+  }
+
   startGame() {
     this.restService.startGame()
-      .then(() => this.router.navigate(['/game']))
+      .then(() => this.goToGame())
       .catch(() => this.backToList());
   }
 

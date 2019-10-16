@@ -40,6 +40,8 @@ public class InGameService {
   public ActiveGameApi getGame(String userId) {
     OnlineGame game = getGameForUser(userId);
     ActiveGameApi activeGame = new ActiveGameApi();
+    activeGame.setTableHeight(game.getTableHeight());
+    activeGame.setTableWidth(game.getTableWidth());
     String[] players = game.getPlayers();
     String[] playerNames = new String[2];
     playerNames[0] = (players[0] == null) ? "Computer" : userRepository.findById(players[0]).getName();

@@ -43,4 +43,16 @@ export class RestService {
   leaveGame() {
     return this.http.delete(this.serverUrl + '/lobby/my-game/' + this.userId).toPromise();
   }
+
+  getActiveGame() {
+    return this.http.get(this.serverUrl + '/active-game/' + this.userId).toPromise();
+  }
+
+  hasOpponentMoved() {
+    return this.http.get(this.serverUrl + '/active-game/' + this.userId + '/move', {responseType: 'text'}).toPromise();
+  }
+
+  performMove(row: number, column: number) {
+    return this.http.post(this.serverUrl + '/active-game/' + this.userId + '/move', {row, column}, {responseType: 'text'}).toPromise();
+  }
 }

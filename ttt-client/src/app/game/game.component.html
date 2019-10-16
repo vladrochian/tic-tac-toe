@@ -1,3 +1,13 @@
 <p>
   game works!
 </p>
+<p>{{text}}</p>
+<div *ngIf="grid">
+  <span *ngFor="let gridLine of grid; let i = index">
+    <span *ngFor="let c of gridLine; let j = index">
+      <span *ngIf="c === '_'" (click)="performMove(i + 1, j + 1)">_</span>
+      <span *ngIf="c !== '_'">{{c}}</span>
+    </span>
+    <br/>
+  </span>
+</div>
