@@ -34,6 +34,10 @@ public class Table {
     return width;
   }
 
+  public int getLineSize() {
+    return lineSize;
+  }
+
   public Position[] getAllPositions() {
     return allPositions;
   }

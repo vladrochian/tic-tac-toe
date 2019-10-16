@@ -17,7 +17,7 @@ public class RegistrationController {
     this.registrationService = registrationService;
   }
 
-  @PostMapping("/player")
+  @PostMapping("/players")
   public ResponseEntity registerPlayer(@RequestBody String name) {
     return new ResponseEntity<>(registrationService.registerUser(name), HttpStatus.CREATED);
   }

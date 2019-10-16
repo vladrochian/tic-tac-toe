@@ -6,10 +6,10 @@ import ro.vladrochian.projects.ttt.table.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableApi {
+public class TableStateApi {
   private List<TableCellApi> cells;
 
-  public TableApi(Table table, long state) {
+  public TableStateApi(Table table, long state) {
     cells = new ArrayList<>();
     for (Position p : table.getAllPositions()) {
       int player = table.getTableValue(state, p);
