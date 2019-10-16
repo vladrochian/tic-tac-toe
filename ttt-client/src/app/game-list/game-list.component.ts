@@ -17,6 +17,7 @@ export class GameListComponent implements OnInit {
     lineSize: 3,
     gamePublic: true
   };
+  joinCode = '';
   games: {
     code: string,
     hostName: string,

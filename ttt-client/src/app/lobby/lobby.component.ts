@@ -11,6 +11,7 @@ import {CookieService} from 'ngx-cookie-service';
 export class LobbyComponent implements OnInit {
   timeout = null;
   game: {
+    code: string,
     hostName: string,
     playerNames: string[]
     myGame: boolean,

@@ -12,6 +12,11 @@
   <input name="gamePublic" type="checkbox" [(ngModel)]="newGame.gamePublic">
 </form>
 <button (click)="createGame()">Create new game</button>
+<form>
+  <label>Code</label>
+  <input name="code" [(ngModel)]="joinCode">
+</form>
+<button (click)="joinGame(joinCode)">Join game by code</button>
 <ul>
   <li *ngFor="let game of games"
       (click)="joinGame(game.code)">{{game.hostName + ' ' + game.tableHeight + 'x' + game.tableWidth}}</li>

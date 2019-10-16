@@ -1,7 +1,7 @@
-<p>
-  lobby works!
-</p>
 <div *ngIf="game">
+  <p *ngIf="game.myGame">
+    Game code: {{game.code}}
+  </p>
   <ul>
     <li>X - {{game.playerNames[0] || 'Computer'}}</li>
     <li>O - {{game.playerNames[1] || 'Computer'}}</li>
