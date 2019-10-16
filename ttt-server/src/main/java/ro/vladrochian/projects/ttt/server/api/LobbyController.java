@@ -37,6 +37,12 @@ public class LobbyController {
     return new ResponseEntity<>(lobbyService.getGameDetails(userId), HttpStatus.OK);
   }
 
+  @PutMapping("/lobby/my-game/{hostId}/opponent")
+  public ResponseEntity changeSides(@PathVariable String hostId) {
+    lobbyService.changeSides(hostId);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
   @DeleteMapping("/lobby/my-game/{hostId}/opponent")
   public ResponseEntity kickOpponent(@PathVariable String hostId) {
     lobbyService.kickOpponent(hostId);

@@ -45,6 +45,14 @@ export class RestService {
     return this.http.put(this.serverUrl + '/lobby/my-game/' + this.userId + '/status', {}).toPromise();
   }
 
+  kickOpponent() {
+    return this.http.delete(this.serverUrl + '/lobby/my-game/' + this.userId + '/opponent').toPromise();
+  }
+
+  changeSides() {
+    return this.http.put(this.serverUrl + '/lobby/my-game/' + this.userId + '/opponent', {}).toPromise();
+  }
+
   leaveGame() {
     return this.http.delete(this.serverUrl + '/lobby/my-game/' + this.userId).toPromise();
   }

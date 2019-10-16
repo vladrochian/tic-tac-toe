@@ -8,6 +8,7 @@ import ro.vladrochian.projects.ttt.server.model.GameSummaryApi;
 import ro.vladrochian.projects.ttt.server.model.OnlineGame;
 import ro.vladrochian.projects.ttt.server.session.GameRepository;
 import ro.vladrochian.projects.ttt.server.session.UserRepository;
+import ro.vladrochian.projects.ttt.table.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +106,19 @@ public class LobbyService {
     }
   }
 
+  public void changeSides(String hostId) {
+    checkUser(hostId);
+    OnlineGame game = gameRepository.findByHostId(hostId);
+    if (game == null) {
+      throw new UserNotHostException();
+    }
+    handleStartedGame(game);
+    String[] players = game.getPlayers();
+    String aux = players[0];
+    players[0] = players[1];
+    players[1] = aux;
+  }
+
   public void kickOpponent(String hostId) {
     checkUser(hostId);
     OnlineGame game = gameRepository.findByHostId(hostId);
@@ -147,5 +161,10 @@ public class LobbyService {
     }
     handleStartedGame(game);
     game.start();
+    if (game.getPlayers()[0] == null) {
+      Table table = game.getTable();
+      long state = game.getState();
+      game.setState(table.getNextState(state, game.getBotAlgorithm().getMove(state)));
+    }
   }
 }

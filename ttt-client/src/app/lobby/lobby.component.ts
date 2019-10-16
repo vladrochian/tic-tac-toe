@@ -45,7 +45,11 @@ export class LobbyComponent implements OnInit {
   }
 
   changeSides() {
-    // TODO: Rocky
+    this.restService.changeSides();
+  }
+
+  kickOpponent() {
+    this.restService.kickOpponent();
   }
 
   goToGame() {

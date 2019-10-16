@@ -8,5 +8,7 @@
   </ul>
   <button *ngIf="game.myGame" (click)="changeSides()">Change sides</button>
   <button *ngIf="game.myGame" (click)="startGame()">Start game</button>
+  <button *ngIf="game.myGame && (game.playerNames[0] && game.playerNames[1])" (click)="kickOpponent()">Kick opponent
+  </button>
   <button (click)="leaveGame()">Leave game</button>
 </div>

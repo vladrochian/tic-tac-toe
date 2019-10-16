@@ -4,7 +4,7 @@ import ro.vladrochian.projects.ttt.table.Position;
 
 public class TableCellApi {
   private int row, column, player;
-  public TableCellApi(Position position, int player) {
+  TableCellApi(Position position, int player) {
     row = position.getX();
     column = position.getY();
     this.player = player;
