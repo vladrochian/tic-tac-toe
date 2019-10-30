@@ -1,23 +1,25 @@
-<p>
-  game-list works!
-</p>
-<form>
-  <label>Height</label>
-  <input name="height" [(ngModel)]="newGame.tableHeight">
-  <label>Width</label>
-  <input name="width" [(ngModel)]="newGame.tableWidth">
-  <label>Line size</label>
-  <input name="lineSize" [(ngModel)]="newGame.lineSize">
-  <label>Public</label>
-  <input name="gamePublic" type="checkbox" [(ngModel)]="newGame.gamePublic">
+<app-header>Game List</app-header>
+<form style="margin-top: 5px">
+  <mat-form-field>
+    <input matInput type="number" name="height" placeholder="Height" [(ngModel)]="newGame.tableHeight">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" name="width" placeholder="Width" [(ngModel)]="newGame.tableWidth">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" name="linesize" placeholder="Line Size" [(ngModel)]="newGame.lineSize">
+  </mat-form-field>
+  <mat-checkbox name="public" [color]="'primary'" [(ngModel)]="newGame.gamePublic">Public</mat-checkbox>
 </form>
-<button (click)="createGame()">Create new game</button>
+<button mat-stroked-button [color]="'primary'" (click)="createGame()">Create new game</button>
 <form>
-  <label>Code</label>
-  <input name="code" [(ngModel)]="joinCode">
+  <mat-form-field>
+    <input matInput placeholder="Code" name="code" (input)="lobbyError=false" [(ngModel)]="joinCode">
+  </mat-form-field>
 </form>
-<button (click)="joinGame(joinCode)">Join game by code</button>
-<ul>
-  <li *ngFor="let game of games"
-      (click)="joinGame(game.code)">{{game.hostName + ' ' + game.tableHeight + 'x' + game.tableWidth}}</li>
-</ul>
+<button mat-raised-button [color]="lobbyError?'warn':'primary'" (click)="joinGame(joinCode)">Join game by code</button>
+<mat-list>
+  <mat-list-item *ngFor="let game of games"
+       (click)="joinGame(game.code)">{{game.hostName + ' ' + game.tableHeight + 'x' + game.tableWidth}}
+  </mat-list-item>
+</mat-list>

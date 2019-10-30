@@ -25,6 +25,7 @@ export class GameListComponent implements OnInit {
     tableWidth: number,
     lineSize: number
   }[] = [];
+  lobbyError = false;
 
   constructor(private cookieService: CookieService, private restService: RestService, private router: Router) {
   }
@@ -55,7 +56,8 @@ export class GameListComponent implements OnInit {
 
   joinGame(gameCode: string) {
     this.restService.joinGame(gameCode)
-      .then(() => this.goToLobby());
+      .then(() => this.goToLobby())
+      .catch(() => this.lobbyError = true);
   }
 
   ngOnInit() {

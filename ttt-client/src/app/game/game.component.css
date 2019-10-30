@@ -1,0 +1,47 @@
+.game {
+  width: 100%;
+  padding: 1px 3px;
+  background-color: aliceblue;
+  transition: background-color 3.5s ease;
+}
+
+#Win {
+  background-color: lawngreen;
+}
+
+#Draw {
+  background-color: #3f51b5;
+}
+
+#Lose {
+  background-color: orangered;
+}
+
+.mat-icon-button {
+  border: 1px #3f51b5 solid;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.XSide {
+  background-image: url('../../assets/X-game.png');
+  background-size: cover;
+}
+
+.OSide {
+  background-image: url('../../assets/0-game.png');
+  background-size: cover;
+}
+
+.XHover:hover {
+  background-image: url('../../assets/X-side.png');
+  background-size: cover;
+}
+
+.OHover:hover {
+  background-image: url('../../assets/0-side.png');
+  background-size: cover;
+}
+
+

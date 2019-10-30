@@ -1,6 +1,5 @@
-<p>
-  register works!
-  <label>Name</label>
-  <input [(ngModel)]="name"/>
-  <button (click)="register()" [disabled]="!name">Register</button>
-</p>
+<app-header>Register</app-header>
+<mat-form-field>
+  <input matInput placeholder="Name" [(ngModel)]="name"/>
+</mat-form-field>
+<button mat-raised-button [color]="'primary'" (click)="register()" [disabled]="!name">Register</button>

@@ -12,6 +12,17 @@ import {CookieService} from 'ngx-cookie-service';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RestService} from './rest/rest.service';
+import { HeaderComponent } from './header/header.component';
+import {
+  MatButtonModule, MatCardModule,
+  MatCheckboxModule,
+  MatFormFieldModule, MatGridListModule,
+  MatIconModule,
+  MatInputModule, MatListModule,
+  MatProgressSpinnerModule,
+  MatToolbarModule
+} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -27,13 +38,25 @@ const appRoutes: Routes = [
     GameListComponent,
     GameComponent,
     LobbyComponent,
-    RegisterComponent
+    RegisterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatGridListModule,
+    MatListModule
   ],
   providers: [
     CookieService,

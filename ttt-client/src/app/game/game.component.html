@@ -1,13 +1,12 @@
-<p>
-  game works!
-</p>
-<p>{{text}}</p>
-<div *ngIf="grid">
-  <span *ngFor="let gridLine of grid; let i = index">
-    <span *ngFor="let c of gridLine; let j = index">
-      <span *ngIf="c === '_'" (click)="performMove(i + 1, j + 1)">_</span>
-      <span *ngIf="c !== '_'">{{c}}</span>
-    </span>
-    <br/>
-  </span>
+<app-header>Game</app-header>
+<h2>{{text}}</h2>
+<div #gamediv  class="game" id="{{text}}">
+  <mat-grid-list *ngIf="grid" [cols]="game.tableWidth" rowHeight="1:1">
+    <ng-container *ngFor="let gridLine of grid; let i = index">
+      <mat-grid-tile *ngFor="let c of gridLine; let j = index">
+        <button *ngIf="c === '_'" mat-icon-button [ngClass]="player" (click)="performMove(i + 1, j + 1)" [color]="'primary'"><mat-icon></mat-icon></button>
+        <button *ngIf="c !== '_'" [ngClass]="c + 'Side'" mat-icon-button [color]="'primary'"></button>
+      </mat-grid-tile>
+    </ng-container>
+  </mat-grid-list>
 </div>
