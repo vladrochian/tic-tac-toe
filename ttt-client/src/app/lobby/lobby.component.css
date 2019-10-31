@@ -1,0 +1,17 @@
+.XSide {
+  background-image: url('../../assets/X-Side.png');
+  background-size: cover;
+  font-size: x-large;
+  text-shadow: 1px 0 15px rgba(255, 255, 255, 1);
+}
+.YSide {
+  background-image: url('../../assets/0-Side.png');
+  background-size: cover;
+  font-size: x-large;
+  text-shadow: 1px 0 15px rgba(255, 255, 255, 1);
+}
+
+.mat-card-title {
+  font-size: 20px;
+  font-weight: 500;
+}

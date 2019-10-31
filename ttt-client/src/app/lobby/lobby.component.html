@@ -1,14 +1,18 @@
-<div *ngIf="game">
-  <p *ngIf="game.myGame">
-    Game code: {{game.code}}
-  </p>
-  <ul>
-    <li>X - {{game.playerNames[0] || 'Computer'}}</li>
-    <li>O - {{game.playerNames[1] || 'Computer'}}</li>
-  </ul>
-  <button *ngIf="game.myGame" (click)="changeSides()">Change sides</button>
-  <button *ngIf="game.myGame" (click)="startGame()">Start game</button>
-  <button *ngIf="game.myGame && (game.playerNames[0] && game.playerNames[1])" (click)="kickOpponent()">Kick opponent
-  </button>
-  <button (click)="leaveGame()">Leave game</button>
-</div>
+<app-header>Lobby</app-header>
+<mat-card *ngIf="game" style="max-width: 300px">
+  <mat-card-header *ngIf="game.myGame">
+    <mat-card-title>Game Code: {{game.code}}</mat-card-title>
+  </mat-card-header>
+  <mat-grid-list cols="2" rowHeight="1:1">
+    <mat-grid-tile class="XSide">{{game.playerNames[0] || 'Computer'}}</mat-grid-tile>
+    <mat-grid-tile class="YSide">{{game.playerNames[1] || 'Computer'}}</mat-grid-tile>
+  </mat-grid-list>
+  <mat-card-actions style="display: flex">
+    <button mat-button *ngIf="game.myGame" (click)="changeSides()">Change sides</button>
+    <button mat-button *ngIf="game.myGame" (click)="startGame()">Start game</button>
+    <button mat-button *ngIf="game.myGame && (game.playerNames[0] && game.playerNames[1])" (click)="kickOpponent()">Kick opponent
+    </button>
+    <button mat-button (click)="leaveGame()">Leave game</button>
+  </mat-card-actions>
+</mat-card>
+<mat-spinner *ngIf="!game"></mat-spinner>

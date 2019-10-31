@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RestService} from '../rest/rest.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, AfterViewInit {
   timeout = null;
   text = 'Waiting';
   grid: string[][] = null;
@@ -19,15 +19,20 @@ export class GameComponent implements OnInit {
     tableState: {cells: {row: number, column: number, player: number}[]},
     gameStatus: string
   } = null;
-
   constructor(private restService: RestService, private cookieService: CookieService, private router: Router) {
   }
+  player: string;
+
+  @ViewChild('gamediv') private gameEl: ElementRef;
 
   ngOnInit() {
     if (!this.cookieService.check('gameCode')) {
       this.backToLobby();
     }
     this.getGame();
+  }
+
+  ngAfterViewInit(): void {
   }
 
   buildGrid() {
@@ -52,6 +57,8 @@ export class GameComponent implements OnInit {
       .then((game: any) => {
         this.game = game;
         this.buildGrid();
+        this.player = this.movingPlayer() + 'Hover';
+        this.setMaxWidth();
         if (this.game.gameStatus !== 'NOT_FINISHED') {
           this.text = (this.game.gameStatus === 'LOSE' ? 'Lose' : 'Draw');
           this.restService.performMove(0, 0)
@@ -106,5 +113,10 @@ export class GameComponent implements OnInit {
         }
       })
       .catch(e => console.log(e));
+  }
+
+  setMaxWidth() {
+    const windowHeight = (window.innerHeight - this.gameEl.nativeElement.getBoundingClientRect().top - 20) * (this.game.tableWidth / this.game.tableHeight);
+    this.gameEl.nativeElement.style.maxWidth = windowHeight + 'px';
   }
 }
