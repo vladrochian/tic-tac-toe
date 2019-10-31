@@ -15,7 +15,7 @@ import {RestService} from './rest/rest.service';
 import { HeaderComponent } from './header/header.component';
 import {
   MatButtonModule, MatCardModule,
-  MatCheckboxModule,
+  MatCheckboxModule, MatDividerModule,
   MatFormFieldModule, MatGridListModule,
   MatIconModule,
   MatInputModule, MatListModule,
@@ -56,7 +56,8 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatCardModule,
     MatGridListModule,
-    MatListModule
+    MatListModule,
+    MatDividerModule
   ],
   providers: [
     CookieService,

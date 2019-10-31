@@ -12,6 +12,7 @@
   <mat-checkbox name="public" [color]="'primary'" [(ngModel)]="newGame.gamePublic">Public</mat-checkbox>
 </form>
 <button mat-stroked-button [color]="'primary'" (click)="createGame()">Create new game</button>
+<mat-divider></mat-divider>
 <form>
   <mat-form-field>
     <input matInput placeholder="Code" name="code" (input)="lobbyError=false" [(ngModel)]="joinCode">
@@ -20,6 +21,10 @@
 <button mat-raised-button [color]="lobbyError?'warn':'primary'" (click)="joinGame(joinCode)">Join game by code</button>
 <mat-list>
   <mat-list-item *ngFor="let game of games"
-       (click)="joinGame(game.code)">{{game.hostName + ' ' + game.tableHeight + 'x' + game.tableWidth}}
+       >{{game.hostName + ' ' + game.tableHeight + 'x' + game.tableWidth}}
+    <button mat-icon-button [color]="'primary'" (click)="joinGame(game.code)">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
   </mat-list-item>
+  <mat-divider></mat-divider>
 </mat-list>

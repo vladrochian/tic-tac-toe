@@ -15,3 +15,7 @@
   font-size: 20px;
   font-weight: 500;
 }
+
+.mat-card-actions .mat-button {
+  flex: 1;
+}
